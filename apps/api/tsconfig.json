@@ -6,8 +6,16 @@
         "module": "commonjs",
         "sourceMap": true,
         "baseUrl": "./",
+        "types": ["node", "jest"],
         "ignoreDeprecations": "5.0"
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "dist"]
+    "include": ["src/cli.ts", "src/version.ts", "src/scanning/**/*.ts", "src/ai/**/*.ts"],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/app.module.ts",
+        "src/health.controller.ts",
+        "src/main.ts",
+        "src/scans.controller.ts"
+    ]
 }

@@ -1,15 +1,28 @@
 {
-    "name": "vulnpilot-ai",
-    "private": true,
+    "name": "vulnpilot",
+    "version": "0.1.0",
+    "description": "Professional CLI security scanner for developers",
+    "private": false,
     "workspaces": [
-        "apps/*",
-        "packages/*"
+        "apps/api"
     ],
     "scripts": {
-        "dev:web": "npm run dev --workspace apps/web",
-        "dev:api": "npm run start:dev --workspace apps/api",
-        "build": "npm run build --workspace apps/api && npm run build --workspace apps/web",
-        "test": "npm run test --workspaces --if-present"
+        "build": "npm run build --workspace apps/api",
+        "prepare": "npm run build",
+        "scan": "npm run scan --workspace apps/api",
+        "vulnpilot": "npm run scan --workspace apps/api",
+        "test": "npm run test --workspace apps/api --if-present",
+        "release": "./scripts/build-release.sh"
+    },
+    "files": [
+        "bin",
+        "apps/api/dist",
+        "apps/api/package.json",
+        "README.md"
+    ],
+    "main": "apps/api/dist/cli.js",
+    "bin": {
+        "vulnpilot": "bin/vulnpilot"
     },
     "devDependencies": {
         "typescript": "^5.6.3",

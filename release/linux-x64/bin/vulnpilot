@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [ -f "$ROOT_DIR/apps/api/dist/cli.js" ]; then
+  exec node "$ROOT_DIR/apps/api/dist/cli.js" "$@"
+else
+  echo "VulnPilot is not built yet. Run: npm run build" >&2
+  exit 1
+fi

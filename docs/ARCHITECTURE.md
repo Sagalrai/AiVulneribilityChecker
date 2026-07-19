@@ -2,92 +2,52 @@
 
 ## 1. Product Vision
 
-VulnPilot AI is an AI-assisted application security platform that helps engineering teams discover, explain, prioritize, patch, and learn from vulnerabilities before deployment.
+VulnPilot AI is a terminal-first security analysis tool that helps developers scan source trees, identify high-signal findings, and generate reports without leaving the command line.
 
 ## 2. Architectural Principles
 
-- Clean Architecture with dependency inversion
-- Provider abstraction for AI backends
-- Static analysis first; AI for explanation and remediation
+- CLI-first interaction and automation readiness
+- Static analysis first; AI for explanation and remediation when available
+- Deterministic rule execution and low-noise reporting
 - Security by design with policy enforcement and auditability
-- Enterprise-grade observability and extensibility
+- Extensible detector and report pipeline
 
 ## 3. System Overview
 
-- Frontend: Next.js dashboard for security operations, scans, and AI mentorship
-- Backend: NestJS API for orchestration, scanning, auth, and report generation
-- Data Layer: PostgreSQL + Prisma for core domain models
-- AI Layer: provider abstraction with Gemini as default implementation
-- Scanning Layer: repository ingestion, framework detection, static analysis, rule engine, and report assembly
+- CLI entrypoint for scans, config, doctor, version, and help commands
+- Static analysis engine for language-aware vulnerability detection
+- Report generation for console, JSON, SARIF, HTML, and Markdown
+- Optional AI-backed explanation and remediation support
 
-## 4. Core Domain Model
+## 4. Core Scanning Pipeline
 
-- Organization
-- User
-- Project
-- Repository
-- ScanRun
-- VulnerabilityFinding
-- PatchSuggestion
-- AIConversation
-- Report
-- AuditLog
-
-## 5. AI Provider Abstraction
-
-```text
-AIProvider
-├── GeminiProvider
-├── OpenAIProvider
-├── ClaudeProvider
-└── LocalProvider
-```
-
-All AI traffic flows through the interface, never directly through business logic.
-
-## 6. Scanning Pipeline
-
-1. Repository upload
+1. Target discovery for files and folders
 2. Language detection
-3. Framework detection
-4. Dependency scan
-5. AST parsing
-6. Static analysis engine
-7. Rule engine
-8. OWASP/CWE mapping
-9. Vulnerable snippet extraction
-10. Gemini explanation and patch generation
-11. Report assembly and dashboard updates
+3. Framework and dependency heuristics
+4. AST parsing and rule execution
+5. OWASP/CWE mapping
+6. Vulnerable snippet extraction
+7. Report assembly and CLI output
 
-## 7. API Surface
+## 5. CLI Surface
 
-- GET /health
-- POST /api/projects
-- GET /api/projects/:id
-- POST /api/scans
-- GET /api/scans/:id
-- POST /api/mentor/chat
-- GET /api/reports/:id
+- `vulnpilot scan .`
+- `vulnpilot scan src/`
+- `vulnpilot scan --json .`
+- `vulnpilot scan --sarif .`
+- `vulnpilot scan --html .`
+- `vulnpilot doctor`
+- `vulnpilot version`
 
-## 8. Deployment Architecture
+## 6. Report Strategy
 
-- Web app hosted on AWS ECS or Vercel
-- API on ECS/Kubernetes
-- PostgreSQL on managed RDS
-- Redis for queues and caching
-- Object storage for uploads and reports
-- OpenTelemetry + Prometheus + Grafana for observability
+- Console output for interactive usage
+- JSON for automation and CI integration
+- SARIF for editor and CI tooling
+- HTML and Markdown for human-readable review
 
-## 9. Security Architecture
+## 7. Implementation Roadmap
 
-- Auth.js or Supabase Auth
-- RBAC for org, project, and repository roles
-- Rate limiting and security headers
-- Secret scanning and least privilege access
-- Audit logging for all critical actions
-
-## 10. Implementation Roadmap
-
-Phase 1: monorepo scaffolding, architecture docs, AI provider abstraction, scan engine foundation, premium dashboard shell
-Phase 2: repository ingestion, rule engine expansion, report generation, mentorship chat, RBAC
-Phase 3: CI/CD, Supabase integration, queue processing, enterprise reporting, compliance workflows
+Phase 1: CLI entrypoint, scan engine, detector refinement, report generation
+Phase 2: richer rule coverage, configuration management, CI integration, fix suggestions
+Phase 3: plugin expansion, policy enforcement, enterprise workflow support

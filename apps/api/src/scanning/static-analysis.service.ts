@@ -1,47 +1,38 @@
-export type VulnerabilityFinding = {
-    id: string;
-    title: string;
-    severity: "critical" | "high" | "medium" | "low";
-    language: string;
-    ruleId: string;
+import { DetectorRegistry } from "./detector-registry";
+import { DetectorFinding } from "./detectors/base-detector";
+import { ConfidenceEngine } from "./engine/confidence-engine";
+import { DeduplicationEngine } from "./engine/deduplication-engine";
+
+export type VulnerabilityFinding = DetectorFinding & {
     snippet: string;
-    recommendation: string;
-    cwe?: string;
-    owasp?: string[];
+    confidenceRationale?: string;
 };
 
 export class StaticAnalysisService {
-    analyze(content: string, language: string): VulnerabilityFinding[] {
+    private readonly registry = new DetectorRegistry();
+    private readonly confidenceEngine = new ConfidenceEngine();
+    private readonly deduplicationEngine = new DeduplicationEngine();
+
+    analyze(content: string, language: string, filePath = "unknown"): VulnerabilityFinding[] {
         const findings: VulnerabilityFinding[] = [];
 
-        if (content.includes("SELECT") && content.includes("request.query")) {
-            findings.push({
-                id: "sql-injection-001",
-                title: "Potential SQL Injection",
-                severity: "high",
-                language,
-                ruleId: "SQLI-001",
-                snippet: content.slice(0, 180),
-                recommendation: "Parameterize queries and avoid string-based query construction.",
-                cwe: "CWE-89",
-                owasp: ["A03:2021-Injection"],
-            });
+        for (const detector of this.registry.getDetectors()) {
+            const detected = detector.detect(content, filePath, language);
+            for (const finding of detected) {
+                const confidence = this.confidenceEngine.score(finding.confidence, [
+                    finding.ruleId,
+                    filePath,
+                    language,
+                ]);
+                findings.push({
+                    ...finding,
+                    confidence: confidence.score,
+                    confidenceRationale: confidence.rationale,
+                    snippet: finding.snippet ?? content.slice(0, 180),
+                });
+            }
         }
 
-        if (content.includes("innerHTML") || content.includes("document.write")) {
-            findings.push({
-                id: "xss-001",
-                title: "Potential Cross-Site Scripting",
-                severity: "high",
-                language,
-                ruleId: "XSS-001",
-                snippet: content.slice(0, 180),
-                recommendation: "Use safe DOM APIs and escape untrusted content.",
-                cwe: "CWE-79",
-                owasp: ["A03:2021-Injection"],
-            });
-        }
-
-        return findings;
+        return this.deduplicationEngine.deduplicate(findings) as VulnerabilityFinding[];
     }
 }
