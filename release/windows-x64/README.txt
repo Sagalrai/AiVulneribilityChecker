@@ -1,76 +1,67 @@
-# VulnPilot AI
+╔══════════════════════════════════════════╗
+║  VulnPilot AI 🛡️                         ║
+║  Your AI-powered security scanner        ║
+╚══════════════════════════════════════════╝
 
-VulnPilot AI is a terminal-first CLI security tool for scanning source trees, surfacing likely vulnerabilities, and producing actionable reports.
+Find security vulnerabilities in your code — no experience needed.
 
-## Highlights
+============================================
+QUICK START
+============================================
 
-- Fast CLI entrypoint for scanning files and folders
-- AST-driven static analysis for common vulnerability classes
-- Structured output for console, JSON, SARIF, HTML, and Markdown
-- Lightweight workflow for local development and CI usage
+1. Make sure you have Node.js installed:
 
-## Installation
+   Open a terminal (Command Prompt or PowerShell) and run:
+     node --version
 
-### Linux x64
+   If you see "command not found", download Node.js from:
+     https://nodejs.org
 
-1. Download the Linux release archive from the GitHub Releases page.
-2. Extract the archive.
-3. Run the binary directly:
+2. Extract this archive to a folder on your computer.
 
-```bash
-./vulnpilot scan .
-```
+3. Open a terminal in the extracted folder.
 
-### Windows x64
+4. Run your first scan:
 
-1. Download the Windows release archive from the GitHub Releases page.
-2. Extract the archive.
-3. Run:
+     .\vulnpilot.exe scan .
 
-```powershell
-./vulnpilot.exe scan .
-```
+   This will scan the current folder for security issues.
 
-If you prefer a local build, run:
+============================================
+EXAMPLES
+============================================
 
-```bash
-npm install
-npm run build
-./bin/vulnpilot scan .
-```
+  Scan the current folder:
+    .\vulnpilot.exe scan .
 
-## Usage
+  Scan a specific folder:
+    .\vulnpilot.exe scan .\my-project
 
-```bash
-vulnpilot scan .
-vulnpilot scan src
-vulnpilot scan project.js
-vulnpilot version
-vulnpilot doctor
-vulnpilot help
-vulnpilot config
-```
+  Generate an HTML report:
+    .\vulnpilot.exe scan --html .
 
-## Examples
+  See all available commands:
+    .\vulnpilot.exe help
 
-- `vulnpilot scan .`
-- `vulnpilot scan src/`
-- `vulnpilot scan --json .`
-- `vulnpilot scan --sarif .`
-- `vulnpilot scan --markdown .`
+============================================
+COMMANDS
+============================================
 
-## Supported platforms
+  scan         Scan a project for security vulnerabilities
+  help         Show this help message
+  version      Show the installed version
+  doctor       Check if everything is set up correctly
 
-- Linux x64
-- Windows x64
-- macOS support can be added later by extending the release packaging scripts
+============================================
+TROUBLESHOOTING
+============================================
 
-## Troubleshooting
+"vulnpilot: command not found":
+  Run it from the extracted folder: .\vulnpilot.exe scan .
 
-- If the binary is not executable on Linux, run `chmod +x vulnpilot`.
-- If the command is not found, ensure the extracted directory is on your PATH or run the binary via its full path.
-- If you are building locally, run `npm run build` before invoking the CLI.
+"Node.js is not installed":
+  Download from https://nodejs.org
 
-## Architecture
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the CLI-oriented architecture, scanning pipeline, and report strategy.
+Need more help?
+  See the Beginner's Guide: docs/BEGINNER_GUIDE.md
+  Visit: https://github.com/Sagalrai/AiVulneribilityChecker

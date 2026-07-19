@@ -1,11 +1,66 @@
 #!/usr/bin/env bash
+# ── VulnPilot AI - CLI Launcher ──────────────────────────────────────────────
+# This script checks your system and launches the VulnPilot scanner.
+# You don't need to understand this file — just run `vulnpilot scan .`
+# ──────────────────────────────────────────────────────────────────────────────
+
 set -euo pipefail
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-if [ -f "$ROOT_DIR/apps/api/dist/cli.js" ]; then
-  exec node "$ROOT_DIR/apps/api/dist/cli.js" "$@"
-else
-  echo "VulnPilot is not built yet. Run: npm run build" >&2
-  exit 1
+# ── Colors ───────────────────────────────────────────────────────────────────
+RED='\033[31m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+CYAN='\033[36m'
+BOLD='\033[1m'
+DIM='\033[2m'
+NC='\033[0m' # No Color
+
+# ── Helper functions ─────────────────────────────────────────────────────────
+info()  { echo -e " ${GREEN}✓${NC} ${DIM}$1${NC}"; }
+warn()  { echo -e " ${YELLOW}⚠${NC} ${DIM}$1${NC}"; }
+error() { echo -e " ${RED}✗${NC} ${BOLD}$1${NC}"; }
+
+# ── Check Node.js ────────────────────────────────────────────────────────────
+if ! command -v node &>/dev/null; then
+    echo ""
+    error "Node.js is not installed."
+    echo ""
+    echo -e " ${DIM}VulnPilot requires Node.js to run.${NC}"
+    echo ""
+    echo -e " ${BOLD}Install Node.js:${NC}"
+    echo -e "   ${CYAN}https://nodejs.org${NC} (download the LTS version)"
+    echo ""
+    echo -e " ${DIM}After installing, run this command again:${NC}"
+    echo -e "   ${CYAN}vulnpilot scan .${NC}"
+    echo ""
+    exit 1
 fi
+
+NODE_VERSION=$(node -v | sed 's/v//' | cut -d. -f1)
+if [ "$NODE_VERSION" -lt 18 ] 2>/dev/null; then
+    echo ""
+    warn "Node.js $(node -v) detected. VulnPilot works best with Node.js 18+."
+    echo -e " ${DIM}Consider upgrading: ${CYAN}https://nodejs.org${NC}"
+    echo ""
+fi
+
+# ── Check if built ───────────────────────────────────────────────────────────
+CLI_JS="$ROOT_DIR/apps/api/dist/cli.js"
+if [ ! -f "$CLI_JS" ]; then
+    echo ""
+    error "VulnPilot is not built yet."
+    echo ""
+    echo -e " ${DIM}Run the following command to build it:${NC}"
+    echo -e "   ${CYAN}npm install && npm run build${NC}"
+    echo ""
+    echo -e " ${DIM}Then try again:${NC}"
+    echo -e "   ${CYAN}vulnpilot scan .${NC}"
+    echo ""
+    exit 1
+fi
+
+# ── Launch VulnPilot ─────────────────────────────────────────────────────────
+exec node "$CLI_JS" "$@"

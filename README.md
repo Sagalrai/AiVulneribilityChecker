@@ -1,481 +1,303 @@
 <div align="center">
 
-# VulnPilot AI
+# VulnPilot AI 🛡️
 
-### AI-Powered Vulnerability Scanner for Modern Developers
+### Your AI-Powered Security Scanner
 
-A developer-first security scanner that detects vulnerabilities, explains risks, and helps teams write safer code with AI-assisted security analysis.
-
-<br>
-
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Node](https://img.shields.io/badge/node-18%2B-green)
-![License](https://img.shields.io/badge/license-MIT-purple)
-![TypeScript](https://img.shields.io/badge/typescript-supported-blue)
+**Find security vulnerabilities in your code — no experience needed.**
 
 </div>
 
 ---
 
-# Overview
+## ⚡ Quick Start
 
-VulnPilot AI is an AI-powered static application security testing (SAST) tool designed to help developers identify security issues directly inside their codebases.
+### 1. Install Node.js
 
-Traditional security scanners often provide technical warnings that are difficult to understand. VulnPilot combines rule-based static analysis with AI-powered explanations to provide:
+VulnPilot needs **Node.js** to run. If you don't have it:
 
-- What the vulnerability is
-- Why it matters
-- Where it exists
-- How attackers could exploit it
-- How developers can fix it
+1. Go to **[https://nodejs.org](https://nodejs.org)**
+2. Download the **LTS** version (the one on the left)
+3. Run the installer
+4. Restart your terminal
 
-The goal is simple:
+> **Already have Node.js?** Run `node --version` to check. You need version 18 or newer.
 
-> Make application security understandable and accessible for every developer.
+### 2. Install VulnPilot
 
----
-
-# Why VulnPilot AI?
-
-Modern applications are built faster than ever, but security often becomes an afterthought.
-
-Developers need tools that:
-
-- Detect vulnerabilities early
-- Explain problems clearly
-- Integrate into existing workflows
-- Provide actionable solutions
-
-VulnPilot AI helps move security testing closer to development instead of waiting until production.
-
----
-
-# Key Features
-
-## Security Scanning
-
-Analyze projects recursively and detect common security issues across your codebase.
-
-Capabilities include:
-
-- Source code inspection
-- Vulnerability pattern detection
-- Risk classification
-- Severity analysis
-- Structured security findings
-
----
-
-## AI-Powered Security Analysis
-
-Every detected issue can be enhanced with AI-generated insights.
-
-AI assistance provides:
-
-- Vulnerability explanations
-- Security impact analysis
-- Possible attack scenarios
-- Recommended fixes
-- Developer-friendly summaries
-
-Instead of:
-
-```
-SQL Injection detected at user.js:42
-```
-
-VulnPilot explains:
-
-```
-This input is directly used inside a database query.
-An attacker could manipulate the input to execute unauthorized SQL commands.
-Use parameterized queries to prevent injection attacks.
-```
-
----
-
-# Report Generation
-
-Generate security reports in multiple formats.
-
-Supported formats:
-
-| Format | Usage |
-|---|---|
-| HTML | Human-readable reports |
-| JSON | Programmatic access |
-| Markdown | Documentation and sharing |
-| SARIF | CI/CD security integrations |
-
-Example:
-
-```bash
-vulnpilot scan . --format html
-```
-
-Output:
-
-```
-reports/
-└── report.html
-```
-
----
-
-# Installation
-
-## npm
+Open your terminal and run:
 
 ```bash
 npm install -g vulnpilot-ai
 ```
 
-## pnpm
+> **What does this do?** It downloads VulnPilot and makes it available as a command.
 
-```bash
-pnpm add -g vulnpilot-ai
-```
-
-After installation:
-
-```bash
-vulnpilot --help
-```
-
----
-
-# Getting Started
-
-## Scan Current Project
+### 3. Run Your First Scan
 
 ```bash
 vulnpilot scan .
 ```
 
----
-
-## Scan Specific Directory
-
-```bash
-vulnpilot scan ./project
-```
+That's it! VulnPilot will scan your current project and show you any security issues it finds.
 
 ---
 
-## Generate Reports
+## 📖 First Scan Tutorial
 
-### HTML Report
+Let's walk through your first scan step by step.
+
+### Step 1: Open Your Terminal
+
+- **Windows**: Search for "Command Prompt" or "PowerShell"
+- **Mac**: Search for "Terminal"
+- **Linux**: Open your terminal application
+
+### Step 2: Go to Your Project
+
+Type `cd` followed by the path to your project:
 
 ```bash
-vulnpilot scan . --format html
+cd /path/to/your/project
 ```
 
-### JSON Report
+> **Tip:** You can also drag and drop a folder into the terminal to paste its path.
+
+### Step 3: Run the Scan
 
 ```bash
-vulnpilot scan . --format json
+vulnpilot scan .
 ```
 
-### Markdown Report
+The `.` means "scan the current folder."
 
-```bash
-vulnpilot scan . --format markdown
+### What You'll See
+
 ```
+🛡️  VulnPilot AI Scanner
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✓ Found 42 source files to scan
+  ✓ Detected: .ts (30 files)
+  ✓ Detected: .js (12 files)
+  ✓ Running security analysis...
 
-### SARIF Report
+📋 Scan Summary
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✓ Scan completed in 150ms
+    Target: /home/user/my-project
+    Files scanned: 42
 
-```bash
-vulnpilot scan . --format sarif
+  Results: ● 2 high  ● 5 medium
+
+🔍 Findings
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  src/login.js (javascript)
+    [HIGH] Potential SQL Injection
+    [MEDIUM] JWT Handling May Be Weak
+
+📖 Next Steps
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  • Review the findings above and follow the fix suggestions.
+  • Run with --verbose to see detailed explanations.
+  • Generate a report: vulnpilot scan --html .
 ```
 
 ---
 
-# CLI Commands
+## 🎯 Commands
 
-| Command | Description |
-|-|-|
-| `scan` | Scan a project for vulnerabilities |
-| `doctor` | Check installation and environment |
-| `version` | Display version information |
-| `help` | Show available commands |
+| Command | What it does |
+|---|---|
+| `vulnpilot scan .` | Scan the current folder for vulnerabilities |
+| `vulnpilot scan ./src` | Scan a specific folder |
+| `vulnpilot help` | Show available commands and options |
+| `vulnpilot version` | Show the installed version |
+| `vulnpilot doctor` | Check if everything is set up correctly |
 
-Example:
+### Options
+
+Add these to your scan command:
+
+| Option | What it does |
+|---|---|
+| `--json` | Get results in JSON format (for other tools) |
+| `--html` | Generate a nice HTML report |
+| `--markdown` | Generate a Markdown report |
+| `--verbose` | Show detailed explanations for each finding |
+| `--fix` | Include fix suggestions |
+| `--output report.html` | Save the report to a file |
+
+### Examples
+
+```bash
+# Scan the current folder
+vulnpilot scan .
+
+# Scan a specific folder
+vulnpilot scan ./my-project
+
+# Generate an HTML report
+vulnpilot scan --html .
+
+# Save report to a file
+vulnpilot scan --html --output report.html
+
+# See detailed information
+vulnpilot scan --verbose .
+
+# Get JSON output (for CI tools)
+vulnpilot scan --json .
+```
+
+---
+
+## ❓ Troubleshooting
+
+### "Command not found: vulnpilot"
+
+This means the `vulnpilot` command isn't available in your terminal.
+
+**Solution:** Make sure you installed it globally:
+
+```bash
+npm install -g vulnpilot-ai
+```
+
+If it still doesn't work, try:
+
+```bash
+npx vulnpilot scan .
+```
+
+### "Project folder not found"
+
+VulnPilot can't find the folder you specified.
+
+**Solution:** Check that the folder exists and the path is correct:
+
+```bash
+# List files in current folder
+ls
+
+# Navigate to your project
+cd path/to/your/project
+
+# Then scan
+vulnpilot scan .
+```
+
+### "No supported source files found"
+
+VulnPilot scans these file types: `.js`, `.ts`, `.tsx`, `.jsx`, `.py`, `.java`, `.go`, `.php`, `.cs`, `.rs`, `.c`, `.cpp`, `.kt`, `.swift`
+
+**Solution:** Make sure you're pointing VulnPilot at a folder that contains source code files.
+
+### "Permission denied"
+
+VulnPilot doesn't have permission to read the folder.
+
+**Solution:** Make sure you have read access to the folder, or try a different folder.
+
+### "Node.js is not installed"
+
+VulnPilot requires Node.js to run.
+
+**Solution:** Download and install Node.js from [https://nodejs.org](https://nodejs.org), then try again.
+
+---
+
+## 🩺 Health Check
+
+Run this to check if VulnPilot is working correctly:
 
 ```bash
 vulnpilot doctor
 ```
 
----
-
-# Example Scan Result
-
-```
-VulnPilot AI Security Report
-
-Files Scanned:
-245
-
-Issues Found:
-8
-
-
-Severity:
-
-Critical:
-1
-
-High:
-2
-
-Medium:
-3
-
-Low:
-2
-
-
-Report:
-reports/report.html
-```
+It will check:
+- ✅ Node.js version
+- ✅ CLI binary
+- ✅ Analysis engine
+- ✅ Report formats
 
 ---
 
-# How It Works
+## 📚 FAQ
 
-VulnPilot AI follows a multi-stage security analysis pipeline.
+### Do I need to know programming to use VulnPilot?
 
-```
-              Source Code
-                   |
-                   v
-          File Discovery Engine
-                   |
-                   v
-          Static Security Scanner
-                   |
-                   v
-          Vulnerability Detection
-                   |
-                   v
-          AI Analysis Layer
-                   |
-                   v
-          Report Generation
-```
+No! VulnPilot is designed for everyone. Just point it at your code and it will tell you if there are security issues.
 
----
+### Do I need to configure anything?
 
-# Architecture
+No. VulnPilot works out of the box. Just run `vulnpilot scan .` and you're done.
 
-```
-apps/
-└── api/
-    └── src/
-        |
-        ├── ai/
-        |   └── AI analysis providers
-        |
-        ├── cli/
-        |   └── Command-line interface
-        |
-        ├── scanning/
-        |   └── Security scanning engine
-        |
-        ├── providers/
-        |   └── External integrations
-        |
-        ├── reporting/
-        |   └── Report generators
-        |
-        ├── version.ts
-        |
-        └── index.ts
-```
+### What does VulnPilot check for?
 
----
+- **SQL Injection** — When user input can manipulate database queries
+- **Cross-Site Scripting (XSS)** — When user input can inject scripts
+- **Hardcoded Secrets** — When API keys or passwords are in your code
+- **JWT Issues** — When authentication tokens aren't properly validated
+- And more!
 
-# Security Approach
+### Is my code sent anywhere?
 
-VulnPilot focuses on developer-friendly security analysis.
+No. VulnPilot runs entirely on your computer. Your code never leaves your machine.
 
-The scanner is designed around:
+### Can I use VulnPilot with CI/CD?
 
-## Early Detection
+Yes! Use the `--json` or `--sarif` options to get machine-readable output that works with CI tools.
 
-Find vulnerabilities before they reach production.
-
-## Developer Education
-
-Explain security problems instead of only reporting them.
-
-## Automation
-
-Integrate security checks into existing workflows.
-
-## Extensibility
-
-A modular architecture allows new scanners and rules to be added easily.
-
----
-
-# CI/CD Integration
-
-VulnPilot supports security automation workflows through machine-readable reports.
-
-SARIF output allows integration with security platforms and code scanning systems.
-
-Example:
+### How do I update VulnPilot?
 
 ```bash
-vulnpilot scan . --format sarif
+npm update -g vulnpilot-ai
 ```
 
----
+### I found a bug or have a suggestion
 
-# Supported Environments
-
-Currently supported:
-
-- Linux
-- macOS
-- Windows
-
-Requirements:
-
-- Node.js 18+
-- npm or pnpm
+Open an issue on our [GitHub repository](https://github.com/Sagalrai/AiVulneribilityChecker).
 
 ---
 
-# Configuration
+## 🚀 For Experienced Users
 
-VulnPilot supports configurable scanning behavior.
-
-Future configuration options include:
-
-```yaml
-scanner:
-  severity:
-    - critical
-    - high
-    - medium
-
-reports:
-  format: html
-
-ai:
-  enabled: true
-```
-
----
-
-# Use Cases
-
-## Individual Developers
-
-Understand security problems while building applications.
-
-## Open Source Maintainers
-
-Automatically check contributions for vulnerabilities.
-
-## Development Teams
-
-Add security checks into development workflows.
-
-## Learning Security
-
-Learn secure coding practices through AI explanations.
-
----
-
-# Roadmap
-
-## Current
-
-- [x] CLI scanner
-- [x] Recursive scanning
-- [x] Multiple report formats
-- [x] AI explanations
-- [x] Modular architecture
-
-
-## Planned
-
-- [ ] AI-powered automatic fixes
-- [ ] GitHub Actions integration
-- [ ] VS Code extension
-- [ ] Incremental scanning
-- [ ] Custom security rules
-- [ ] Web dashboard
-- [ ] Team collaboration
-- [ ] Cloud scanning
-- [ ] API access
-
----
-
-# Contributing
-
-Contributions are welcome.
-
-To contribute:
-
-1. Fork the repository
-2. Create a new branch
+### Install from source
 
 ```bash
-git checkout -b feature/new-feature
-```
-
-3. Make your changes
-4. Submit a pull request
-
-Before submitting:
-
-- Follow existing code style
-- Add documentation where needed
-- Test your changes
-
----
-
-# Development
-
-Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/vulnpilot-ai.git
-```
-
-Install dependencies:
-
-```bash
+git clone https://github.com/Sagalrai/AiVulneribilityChecker.git
+cd AiVulneribilityChecker
 npm install
-```
-
-Run development mode:
-
-```bash
-npm run dev
-```
-
-Build:
-
-```bash
 npm run build
+./bin/vulnpilot scan .
 ```
 
----
+### Report formats
 
-# License
+| Format | Command |
+|---|---|
+| Console (default) | `vulnpilot scan .` |
+| JSON | `vulnpilot scan --json .` |
+| HTML | `vulnpilot scan --html .` |
+| Markdown | `vulnpilot scan --markdown .` |
+| SARIF | `vulnpilot scan --sarif .` |
 
-VulnPilot AI is released under the MIT License.
+### AI-powered analysis
+
+Set a Gemini API key to get AI-powered explanations:
+
+```bash
+export GEMINI_API_KEY=your-key-here
+vulnpilot scan .
+```
 
 ---
 
 <div align="center">
 
-Built with TypeScript, Node.js, and Artificial Intelligence.
-
 **Secure Code. Ship Faster.**
+
+Built with TypeScript, Node.js, and Artificial Intelligence.
 
 </div>
