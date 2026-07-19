@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color-scheme: dark;
+}
+
+body {
+    @apply min-h-screen bg-slate-950 text-slate-100 antialiased;
+    background-image:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.24), transparent 30%),
+        linear-gradient(135deg, rgba(2, 6, 23, 1) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+* {
+    @apply box-border;
+}
